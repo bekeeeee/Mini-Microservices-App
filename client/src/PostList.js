@@ -3,35 +3,37 @@ import axios from "axios";
 import CommentCreate from "./CommentCreate";
 import CommentList from "./CommentList";
 
-const PostList = () => {
+export default () => {
   const [posts, setPosts] = useState({});
+
   const fetchPosts = async () => {
-    const res = await axios.get("http://localhost:4002/posts");
+    const res = await axios.get("http://posts.com/posts");
     setPosts(res.data);
   };
+
   useEffect(() => {
     fetchPosts();
   }, []);
-  const renderPosts = Object.values(posts).map(({ id, title, comments }) => {
+
+  const renderedPosts = Object.values(posts).map((post) => {
     return (
       <div
         className="card"
         style={{ width: "30%", marginBottom: "20px" }}
-        key={id}
+        key={post.id}
       >
         <div className="card-body">
-          <h3>{title}</h3>
-          <CommentList comments={comments} />
-          <CommentCreate postId={id} />
+          <h3>{post.title}</h3>
+          <CommentList comments={post.comments} />
+          <CommentCreate postId={post.id} />
         </div>
       </div>
     );
   });
+
   return (
-    <div className="d-flex flex-row flex-wrap justify-content-between">
-      {renderPosts}
+    <div className="d-flex flex-row flex-wrap justify justify-content-between">
+      {renderedPosts}
     </div>
   );
 };
-
-export default PostList;

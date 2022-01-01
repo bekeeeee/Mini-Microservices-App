@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const CommentCreate = ({ postId }) => {
+export default ({ postId }) => {
   const [content, setContent] = useState("");
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
+
+    await axios.post(`http://posts.com/posts/${postId}/comments`, {
       content,
     });
+
     setContent("");
   };
 
@@ -18,18 +20,13 @@ const CommentCreate = ({ postId }) => {
         <div className="form-group">
           <label>New Comment</label>
           <input
-            type="text"
-            value={content}
             className="form-control"
+            value={content}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <button className="btn btn-primary" style={{ marginTop: "5px" }}>
-          Submit
-        </button>
+        <button className="btn btn-primary">Submit</button>
       </form>
     </div>
   );
 };
-
-export default CommentCreate;
